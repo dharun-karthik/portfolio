@@ -1,18 +1,25 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import {describe, expect, test, vi} from 'vitest';
 import Navbar from "./Navbar";
+import Section from "../constants/Section.ts";
 
 describe("Navbar Component", () => {
+
+    const sections: Array<Section> = [Section.HOME, Section.WORK, Section.ABOUT, Section.CONTACT];
+    const mockSetActive = vi.fn();
+
     test("renders Navbar component", () => {
-        render(<Navbar/>);
+        render(<Navbar buttons={sections} activeButton={Section.CONTACT} onButtonClick={mockSetActive}/>);
+
         expect(screen.getByText("Home")).toBeInTheDocument();
         expect(screen.getByText("Work")).toBeInTheDocument();
         expect(screen.getByText("About")).toBeInTheDocument();
         expect(screen.getByText("Contact")).toBeInTheDocument();
+        expect(screen.getByText("Contact")).toHaveClass("active");
     });
 
-    test("changes active button on click", () => {
-        render(<Navbar/>);
+    test("should call set active method and change the class based on active items", () => {
+        render(<Navbar buttons={sections} activeButton={Section.HOME} onButtonClick={mockSetActive}/>);
         const homeButton = screen.getByText("Home");
         const workButton = screen.getByText("Work");
 
@@ -20,20 +27,20 @@ describe("Navbar Component", () => {
 
         fireEvent.click(workButton);
 
-        expect(workButton).toHaveClass("active");
-        expect(homeButton).not.toHaveClass("active");
+        expect(mockSetActive).toHaveBeenCalledWith("Work");
     });
 
     test("renders social media icons", () => {
-        render(<Navbar/>);
-        screen.logTestingPlaygroundURL();
+        render(<Navbar buttons={sections} activeButton={Section.HOME} onButtonClick={mockSetActive}/>);
+
         expect(screen.getByTestId("LinkedInIcon")).toBeInTheDocument();
         expect(screen.getByTestId("GitHubIcon")).toBeInTheDocument();
         expect(screen.getByTestId("WhatsAppIcon")).toBeInTheDocument();
     });
 
     test("redirects to social media page on icon click", () => {
-        render(<Navbar/>);
+        render(<Navbar buttons={sections} activeButton={Section.HOME} onButtonClick={mockSetActive}/>);
+
         const linkedInIcon = screen.getByTestId("LinkedInIcon");
         const gitHubIcon = screen.getByTestId("GitHubIcon");
         const whatsAppIcon = screen.getByTestId("WhatsAppIcon");

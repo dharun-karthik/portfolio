@@ -2,6 +2,8 @@ import {AppBar, Box, Toolbar} from "@mui/material";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Navbar from "./components/Navbar.tsx";
 import "./App.css";
+import {useState} from "react";
+import Section from "./constants/Section.ts";
 
 const theme = createTheme({
     components: {
@@ -24,16 +26,20 @@ const theme = createTheme({
 });
 
 function App() {
+
+    const sections: Array<Section> = Object.values(Section);
+    const [currentSection, setCurrentSection] = useState(Section.HOME);
+
     return (
         <ThemeProvider theme={theme}>
             <Box className="app-container">
                 <AppBar position="fixed" className="app-bar" elevation={0}>
                     <Toolbar>
-                        <Navbar/>
+                        <Navbar buttons={sections} activeButton={currentSection} onButtonClick={setCurrentSection}/>
                     </Toolbar>
                 </AppBar>
                 <Box className="app-content">
-                    <h1 className="App">My Portfolio</h1>
+                    {currentSection}
                 </Box>
             </Box>
         </ThemeProvider>

@@ -1,12 +1,16 @@
 import * as React from "react";
-import {useState} from "react";
 import {Box, Button, IconButton, Typography} from "@mui/material";
 import {GitHub, LinkedIn, WhatsApp} from "@mui/icons-material";
 import "./Navbar.css";
+import Section from "../constants/Section.ts";
 
-const Navbar: React.FC = () => {
-    const [active, setActive] = useState<string>("Home");
+interface NavbarProps {
+    buttons: Section[],
+    activeButton: Section,
+    onButtonClick: (section: Section) => void
+}
 
+const Navbar: React.FC<NavbarProps> = ({buttons, activeButton, onButtonClick}: NavbarProps) => {
     const LINKEDIN_URL = "https://www.linkedin.com/in/dharun-karthik";
     const GITHUB_URL = "https://github.com/dharun-karthik";
     const WHATSAPP_URL = "https://wa.me/919943962784";
@@ -23,11 +27,11 @@ const Navbar: React.FC = () => {
                 </Typography>
             </Box>
             <Box className="navbar-links">
-                {["Home", "Work", "About", "Contact"].map((item: string) => (
+                {buttons.map((item: string) => (
                     <Button
                         key={item}
-                        onClick={() => setActive(item)}
-                        className={active === item ? "nav-button active" : "nav-button"}
+                        onClick={() => onButtonClick(item)}
+                        className={activeButton === item ? "nav-button active" : "nav-button"}
                     >
                         {item}
                     </Button>
