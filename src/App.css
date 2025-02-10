@@ -1,18 +1,18 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.app-container {
+    width: 100vw !important;
+    height: 100vw !important;
+    background-color: #0a1631 !important;
 }
 
-#root {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.app-bar {
+    background-color: transparent !important;
+    width: 80% !important;
+    margin: 30px 10% 0 !important;
 }
 
-.App {
-    text-align: center;
+.app-content {
+    padding-top: 84px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
